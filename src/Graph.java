@@ -174,5 +174,6 @@ public class Graph{
 		for(int i = 0; i < this.numNodes; i++){
 			System.out.print(preTrace[i]+" ");
 		}
+		System.out.println();
 	}
 }
