@@ -15,3 +15,5 @@ from the root directory.  To build it and run the compiled binaries, use
 	make run
 
 
+
+Using make run will take input from testing/input1 by default.
