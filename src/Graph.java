@@ -176,4 +176,10 @@ public class Graph{
 		}
 		System.out.println();
 	}
+	
+	public void insertionSort(){}
+	
+	public void countSort(){}
+	
+	public void quickSort(){}
 }
