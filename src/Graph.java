@@ -53,14 +53,11 @@ public class Graph{
 	private void generateConnection(int node1, int node2){
 		int weight =  this.weight.nextInt(this.numNodes) + 1;
 		double connected = this.edge.nextDouble();
-		System.out.println("Connecting nodes " + node1 + " and " + node2 + " with weight " + weight);
 		if( node1 != node2 ){
 			if(connected < this.p){
-				System.out.println("connected");
 				adjMatrix.connect(node1, node2, weight);
 				adjList.connect(node1, node2, weight);
 			} else {
-				System.out.println("not connected");
 				adjMatrix.connect(node1, node2, 0);
 			}
 		}
