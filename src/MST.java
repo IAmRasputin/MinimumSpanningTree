@@ -99,9 +99,9 @@ public class MST{
 		// Display the output
 		graph.printSummary();
 		if(Integer.parseInt(fileIn.get(0)) <= 10){
-			graph.printAdjacencyMatrix();
-			graph.printAdjacencyList();
-			graph.printDFSTrace();
+			graph.adjMatrix.print();
+			graph.adjList.print();
+			graph.adjMatrix.DFSTrace();
 		}
 		
 	}
