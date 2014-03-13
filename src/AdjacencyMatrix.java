@@ -42,6 +42,23 @@ public class AdjacencyMatrix extends Structure {
 	public void insertionSort() {
 		System.out.println("===================================");
 		System.out.println("SORTED EDGES WITH MATRIX USING INSERTION SORT");
+
+		// Populate the edges of the structure into an arraylist
+		ArrayList<ArrayList<Integer>> edges =
+				new ArrayList<ArrayList<Integer>>();
+		for(int i = 0; i < numNodes; i++){
+			for(int j = 0; j < i; j++){
+				if( adjMatrix[i][j] != 0 ){
+					ArrayList<Integer> edge;
+					edge.add(i);
+					edge.add(j);
+					edge.add(adjMatrix[i][j]);
+					edges.add(edge);
+				}
+			}
+		}
+
+		
 	}
 
 
@@ -49,6 +66,20 @@ public class AdjacencyMatrix extends Structure {
 		System.out.println("===================================");
 		System.out.println("SORTED EDGES WITH MATRIX USING COUNT SORT");
 
+		// Populate the edges of the structure into an arraylist
+		ArrayList<ArrayList<Integer>> edges =
+				new ArrayList<ArrayList<Integer>>();
+		for(int i = 0; i < numNodes; i++){
+			for(int j = 0; j < i; j++){
+				if( adjMatrix[i][j] != 0 ){
+					ArrayList<Integer> edge;
+					edge.add(i);
+					edge.add(j);
+					edge.add(adjMatrix[i][j]);
+					edges.add(edge);
+				}
+			}
+		}
 	}
 
 
@@ -56,6 +87,20 @@ public class AdjacencyMatrix extends Structure {
 		System.out.println("===================================");
 		System.out.println("SORTED EDGES WITH MATRIX USING QUICKSORT");
 
+		// Populate the edges of the structure into an arraylist
+		ArrayList<ArrayList<Integer>> edges =
+				new ArrayList<ArrayList<Integer>>();
+		for(int i = 0; i < numNodes; i++){
+			for(int j = 0; j < i; j++){
+				if( adjMatrix[i][j] != 0 ){
+					ArrayList<Integer> edge;
+					edge.add(i);
+					edge.add(j);
+					edge.add(adjMatrix[i][j]);
+					edges.add(edge);
+				}
+			}
+		}
 	}
 
 
