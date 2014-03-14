@@ -102,6 +102,7 @@ public class MST{
 			graph.adjMatrix.print();
 			graph.adjList.print();
 			graph.adjMatrix.DFSTrace();
+			graph.adjMatrix.insertionSort();
 		}
 		
 	}

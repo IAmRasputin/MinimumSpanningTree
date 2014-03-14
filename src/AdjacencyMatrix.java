@@ -49,7 +49,7 @@ public class AdjacencyMatrix extends Structure {
 		for(int i = 0; i < numNodes; i++){
 			for(int j = 0; j < i; j++){
 				if( adjMatrix[i][j] != 0 ){
-					ArrayList<Integer> edge;
+					ArrayList<Integer> edge = new ArrayList<Integer>();
 					edge.add(i);
 					edge.add(j);
 					edge.add(adjMatrix[i][j]);
@@ -57,8 +57,36 @@ public class AdjacencyMatrix extends Structure {
 				}
 			}
 		}
-
 		
+		// Begin insertion sort implementation
+		long startTime = -System.currentTimeMillis();
+		int len = edges.size();
+		ArrayList<Integer> temp = new ArrayList<Integer>();
+		
+		for(int i = 0; i < len; i++){
+			for(int j = i; j > 0; j--){
+				if(edges.get(j).get(2) < edges.get(j-1).get(2)){
+					temp = edges.get(j-1);
+					edges.set(j-1, edges.get(j));
+					edges.set(j, temp);
+				} else {
+					break;
+				}
+			}
+		}
+
+		long totalTime = startTime + System.currentTimeMillis();
+		int totWeight = 0;
+		// Print out the result
+		for( ArrayList<Integer> e : edges){
+			System.out.println(e.get(0)+" "+e.get(1)+" weight = "+e.get(2));
+			totWeight += e.get(2);
+		}
+		
+		System.out.println();
+		System.out.println("Total weight: " + totWeight);
+		System.out.println("Runtime: " + totalTime + " milliseconds");
+		System.out.println();
 	}
 
 
@@ -72,7 +100,7 @@ public class AdjacencyMatrix extends Structure {
 		for(int i = 0; i < numNodes; i++){
 			for(int j = 0; j < i; j++){
 				if( adjMatrix[i][j] != 0 ){
-					ArrayList<Integer> edge;
+					ArrayList<Integer> edge = new ArrayList<Integer>();
 					edge.add(i);
 					edge.add(j);
 					edge.add(adjMatrix[i][j]);
@@ -93,7 +121,7 @@ public class AdjacencyMatrix extends Structure {
 		for(int i = 0; i < numNodes; i++){
 			for(int j = 0; j < i; j++){
 				if( adjMatrix[i][j] != 0 ){
-					ArrayList<Integer> edge;
+					ArrayList<Integer> edge = new ArrayList<Integer>();
 					edge.add(i);
 					edge.add(j);
 					edge.add(adjMatrix[i][j]);
