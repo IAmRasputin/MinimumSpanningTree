@@ -18,8 +18,8 @@ public class Graph{
 	AdjacencyMatrix adjMatrix;
 	AdjacencyList adjList;
 	
-	private Integer[][] matrix;
-	private Integer[] preTrace;
+//	private Integer[][] matrix;
+//	private Integer[] preTrace;
 
 	// Public constructor
 	public Graph(int nodes, long sd, double prob){
@@ -28,7 +28,7 @@ public class Graph{
 		this.p = prob;
 		this.edge = new Random((long)this.seed);
 		this.weight = new Random((long)(this.seed * 2));
-		this.preTrace = new Integer[nodes];
+//		this.preTrace = new Integer[nodes];
 		this.adjMatrix = new AdjacencyMatrix(nodes);
 		this.adjList = new AdjacencyList(nodes);
 		

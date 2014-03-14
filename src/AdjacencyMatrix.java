@@ -77,9 +77,12 @@ public class AdjacencyMatrix extends Structure {
 
 		long totalTime = startTime + System.currentTimeMillis();
 		int totWeight = 0;
-		// Print out the result
+		// Print out the result len <= 10
+		
 		for( ArrayList<Integer> e : edges){
-			System.out.println(e.get(0)+" "+e.get(1)+" weight = "+e.get(2));
+			if(len <= 10){
+				System.out.println(e.get(0)+" "+e.get(1)+" weight = "+e.get(2));
+			}
 			totWeight += e.get(2);
 		}
 		
@@ -97,6 +100,7 @@ public class AdjacencyMatrix extends Structure {
 		// Populate the edges of the structure into an arraylist
 		ArrayList<ArrayList<Integer>> edges =
 				new ArrayList<ArrayList<Integer>>();
+		int radix = 0;
 		for(int i = 0; i < numNodes; i++){
 			for(int j = 0; j < i; j++){
 				if( adjMatrix[i][j] != 0 ){
@@ -105,9 +109,62 @@ public class AdjacencyMatrix extends Structure {
 					edge.add(j);
 					edge.add(adjMatrix[i][j]);
 					edges.add(edge);
+					if(adjMatrix[i][j] > radix){
+						radix = adjMatrix[i][j];
+					}
 				}
 			}
 		}
+		
+		radix++;
+		
+		long startTime = -System.currentTimeMillis();
+		int len = edges.size();
+		
+		// Begin count sort implementation
+		ArrayList<ArrayList<Integer>> aux = new ArrayList<ArrayList<Integer>>();
+		ArrayList<Integer> blank = new ArrayList<Integer>();
+		for(int i = 0; i < 3; i++) blank.add(0);
+		for(int i = 0; i < len; i++) aux.add(blank);
+		
+		Integer[] count = new Integer[radix+1];
+		for(int i = 0; i < radix+1; i++){
+			count[i] = 0;
+		}
+		int index;
+		for(int i = 0; i < len; i++){
+			index = edges.get(i).get(2) + 1;
+			count[index]++;
+		}
+		
+		for(int r = 0; r < radix; r++){
+			count[r+1] += count[r];
+		}
+		
+		for(int i = 0; i < len; i++){
+			index = count[edges.get(i).get(2)];
+			aux.set(index, edges.get(i));
+			count[edges.get(i).get(2)]++;
+		}
+		
+		edges = aux;
+		
+		long totalTime = startTime + System.currentTimeMillis();
+		int totWeight = 0;
+		// Print out the result len <= 10
+		
+		for( ArrayList<Integer> e : edges){
+			if(len <= 10){
+				System.out.println(e.get(0)+" "+e.get(1)+" weight = "+e.get(2));
+			}
+			totWeight += e.get(2);
+		}
+		
+		System.out.println();
+		System.out.println("Total weight: " + totWeight);
+		System.out.println("Runtime: " + totalTime + " milliseconds");
+		System.out.println();
+		
 	}
 
 
@@ -129,8 +186,31 @@ public class AdjacencyMatrix extends Structure {
 				}
 			}
 		}
+		
+		long startTime = -System.currentTimeMillis();
+		int len = edges.size();
+		
+		// Begin quicksort implementation
+		
+		
+		long totalTime = startTime + System.currentTimeMillis();
+		int totWeight = 0;
+		// Print out the result len <= 10
+		
+		for( ArrayList<Integer> e : edges){
+			if(len <= 10){
+				System.out.println(e.get(0)+" "+e.get(1)+" weight = "+e.get(2));
+			}
+			totWeight += e.get(2);
+		}
+		
+		System.out.println();
+		System.out.println("Total weight: " + totWeight);
+		System.out.println("Runtime: " + totalTime + " milliseconds");
+		System.out.println();
 	}
 
+	
 
 	public boolean isConnected() {
 		Stack<Integer[]> stack = new Stack<Integer[]>();

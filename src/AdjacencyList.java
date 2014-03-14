@@ -32,6 +32,7 @@ public class AdjacencyList extends Structure {
 	public void insertionSort() {
 		System.out.println("===================================");
 		System.out.println("SORTED EDGES WITH LIST USING INSERTION SORT");
+		
 
 	}
 
