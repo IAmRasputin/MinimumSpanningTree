@@ -10,12 +10,13 @@ public class AdjacencyList extends Structure {
 	ArrayList<ArrayList<ArrayList<Integer>>> adjList;	// Absolutely disgusting
 //	private Integer[] preTrace; 			// For determining predecessors
 
+	// Public constructor
 	public AdjacencyList(int nodes) {
 		this.numNodes = nodes;
 		this.clear();
 	}
 
-
+	// Print out a string representation of the list
 	public void print() {
 		System.out.println("The graph as an adjacency list:");
 		for(int i = 0; i < this.numNodes; i++){
@@ -29,6 +30,7 @@ public class AdjacencyList extends Structure {
 	}
 
 
+	// Performs an insertion sort on the list and prints the results
 	public void insertionSort() {
 		System.out.println("===================================");
 		System.out.println("SORTED EDGES WITH LIST USING INSERTION SORT");
@@ -89,7 +91,7 @@ public class AdjacencyList extends Structure {
 		System.out.println();
 	}
 
-
+	// Performs a count sort on the list and prints the results
 	public void countSort() {
 		System.out.println("===================================");
 		System.out.println("SORTED EDGES WITH LIST USING COUNT SORT");
@@ -171,7 +173,7 @@ public class AdjacencyList extends Structure {
 		System.out.println();
 	}
 
-
+	// Performs a (stable) quicksort on the list and prints the results
 	public void quickSort() {
 		System.out.println("===================================");
 		System.out.println("SORTED EDGES WITH LIST USING QUICKSORT");
@@ -221,6 +223,7 @@ public class AdjacencyList extends Structure {
 		
 	}
 	
+	// Partitions the arraylist for the quicksort
 	private static int QS_partition(ArrayList<ArrayList<Integer>> edges, int lo, int hi){
 		int i = lo, j = hi+1;
 		ArrayList<Integer> temp = new ArrayList<Integer>();
@@ -246,6 +249,7 @@ public class AdjacencyList extends Structure {
 		return j;
 	}
 	
+	// performs the quicksort
 	private static void QS_sort(ArrayList<ArrayList<Integer>> edges, int lo, int hi){
 		if(hi <= lo){
 			return;
@@ -262,7 +266,7 @@ public class AdjacencyList extends Structure {
 		return false;
 	}
 
-
+	// Connects two nodes at the givern vertices with the given weight
 	public void connect(int node1, int node2, int weight) {
 		if(weight != 0){
 			ArrayList<Integer> toAddFirst = new ArrayList<Integer>();
@@ -277,6 +281,7 @@ public class AdjacencyList extends Structure {
 		}
 	}
 	
+	// Clears the list to all 0s
 	public void clear(){
 		adjList = new ArrayList<ArrayList<ArrayList<Integer>>>();
 		

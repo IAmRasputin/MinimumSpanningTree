@@ -50,6 +50,7 @@ public abstract class Structure {
 		return true;
 	}
 	
+	// Is the structure representing a connected graph?
 	public abstract boolean isConnected();
 	
 	//Clears a data structure in case it's not connected

@@ -10,17 +10,20 @@ public class AdjacencyMatrix extends Structure {
 	private Integer[][] adjMatrix;
 	private Integer[] preTrace; // For determining predecessors
 	
+	// Public constructor
 	public AdjacencyMatrix(int nodes){
 		this.numNodes = nodes;
 		this.preTrace = new Integer[numNodes];
 		this.clear();
 	}
 	
+	// Connects two nodes with the given indices with the given weight
 	public void connect(int node1, int node2, int weight) {
 		this.adjMatrix[node1][node2] = weight;
 		this.adjMatrix[node2][node1] = weight;
 	}
 	
+	// Prints out a string representation of the matrix
 	public void print() {
 		System.out.println("The graph as an adjacency matrix:");
 		System.out.println();
@@ -39,12 +42,11 @@ public class AdjacencyMatrix extends Structure {
 	}
 
 
+	// Performs an insertion sort on the matrix and prints the results
 	public void insertionSort() {
 		System.out.println("===================================");
 		System.out.println("SORTED EDGES WITH MATRIX USING INSERTION SORT");
-
-		long startTime = -System.currentTimeMillis();
-		
+	
 		// Populate the edges of the structure into an arraylist
 		ArrayList<ArrayList<Integer>> edges =
 				new ArrayList<ArrayList<Integer>>();
@@ -61,7 +63,7 @@ public class AdjacencyMatrix extends Structure {
 		}
 		
 		// Begin insertion sort implementation
-		
+		long startTime = -System.currentTimeMillis();
 		int len = edges.size();
 		ArrayList<Integer> temp = new ArrayList<Integer>();
 		
@@ -95,11 +97,12 @@ public class AdjacencyMatrix extends Structure {
 	}
 
 
+	// Performs a count sort on the matrix and prints the results
 	public void countSort() {
 		System.out.println("===================================");
 		System.out.println("SORTED EDGES WITH MATRIX USING COUNT SORT");
 
-		long startTime = -System.currentTimeMillis();
+		
 		
 		// Populate the edges of the structure into an arraylist
 		ArrayList<ArrayList<Integer>> edges =
@@ -126,6 +129,7 @@ public class AdjacencyMatrix extends Structure {
 		int len = edges.size();
 		
 		// Begin count sort implementation
+		long startTime = -System.currentTimeMillis();
 		ArrayList<ArrayList<Integer>> aux = new ArrayList<ArrayList<Integer>>();
 		ArrayList<Integer> blank = new ArrayList<Integer>();
 		for(int i = 0; i < 3; i++) blank.add(0);
@@ -171,12 +175,12 @@ public class AdjacencyMatrix extends Structure {
 		
 	}
 
-
+	// Performs a stable quicksort on the matrix and prints the results
 	public void quickSort() {
 		System.out.println("===================================");
 		System.out.println("SORTED EDGES WITH MATRIX USING QUICKSORT");
 
-		long startTime = -System.currentTimeMillis();
+		
 		
 		// Populate the edges of the structure into an arraylist
 		ArrayList<ArrayList<Integer>> edges =
@@ -197,6 +201,7 @@ public class AdjacencyMatrix extends Structure {
 		int len = edges.size();
 		
 		// Begin quicksort implementation
+		long startTime = -System.currentTimeMillis();
 		QS_sort(edges, 0, len-1);
 		
 		long totalTime = startTime + System.currentTimeMillis();
@@ -216,6 +221,7 @@ public class AdjacencyMatrix extends Structure {
 		System.out.println();
 	}
 	
+	// Partitions the arrayList for the quicksort
 	private static int QS_partition(ArrayList<ArrayList<Integer>> edges, int lo, int hi){
 		int i = lo, j = hi+1;
 		ArrayList<Integer> temp = new ArrayList<Integer>();
@@ -241,6 +247,7 @@ public class AdjacencyMatrix extends Structure {
 		return j;
 	}
 	
+	// Performs the actual work for the quicksort
 	private static void QS_sort(ArrayList<ArrayList<Integer>> edges, int lo, int hi){
 		if(hi <= lo){
 			return;
@@ -253,7 +260,7 @@ public class AdjacencyMatrix extends Structure {
 	
 
 	
-
+	// Determines whether the graph is connected
 	public boolean isConnected() {
 		Stack<Integer[]> stack = new Stack<Integer[]>();
 		Stack<Integer> preStack = new Stack<Integer>();
@@ -285,6 +292,7 @@ public class AdjacencyMatrix extends Structure {
 		return (visited.size() == this.numNodes);
 	}
 	
+	// Determines and prints out a trace of a depth-first search
 	public void DFSTrace(){
 		Stack<Integer[]> stack = new Stack<Integer[]>();
 		Stack<Integer> preStack = new Stack<Integer>();
@@ -326,6 +334,7 @@ public class AdjacencyMatrix extends Structure {
 		System.out.println();
 	}
 	
+	// Re-sets the matrix to only contain zeros
 	public void clear(){
 		this.adjMatrix = new Integer[numNodes][numNodes];
 		for(int i = 0; i < numNodes; i++){
