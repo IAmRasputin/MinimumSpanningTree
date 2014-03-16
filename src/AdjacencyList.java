@@ -35,7 +35,6 @@ public class AdjacencyList extends Structure {
 		System.out.println("===================================");
 		System.out.println("SORTED EDGES WITH LIST USING INSERTION SORT");
 		
-		long startTime = -System.currentTimeMillis();
 		
 		// Populate the edges of the structure into an arraylist
 		ArrayList<ArrayList<Integer>> edges =
@@ -59,6 +58,7 @@ public class AdjacencyList extends Structure {
 		
 		// Begin insertion sort implementation
 		
+		long startTime = -System.currentTimeMillis();
 		int len = edges.size();
 		ArrayList<Integer> temp = new ArrayList<Integer>();
 		
@@ -96,7 +96,6 @@ public class AdjacencyList extends Structure {
 		System.out.println("===================================");
 		System.out.println("SORTED EDGES WITH LIST USING COUNT SORT");
 
-		long startTime = -System.currentTimeMillis();
 		
 		// Populate the edges of the structure into an arraylist
 		ArrayList<ArrayList<Integer>> edges =
@@ -129,6 +128,7 @@ public class AdjacencyList extends Structure {
 		int len = edges.size();
 		
 		// Begin count sort implementation
+		long startTime = -System.currentTimeMillis();
 		ArrayList<ArrayList<Integer>> aux = new ArrayList<ArrayList<Integer>>();
 		ArrayList<Integer> blank = new ArrayList<Integer>();
 		for(int i = 0; i < 3; i++) blank.add(0);
@@ -178,7 +178,6 @@ public class AdjacencyList extends Structure {
 		System.out.println("===================================");
 		System.out.println("SORTED EDGES WITH LIST USING QUICKSORT");
 
-		long startTime = -System.currentTimeMillis();
 		
 		// Populate the edges of the structure into an arraylist
 		ArrayList<ArrayList<Integer>> edges =
@@ -203,6 +202,7 @@ public class AdjacencyList extends Structure {
 		int len = edges.size();
 		
 		// Begin quicksort implementation
+		long startTime = -System.currentTimeMillis();
 		QS_sort(edges, 0, len-1);
 		
 		long totalTime = startTime + System.currentTimeMillis();
