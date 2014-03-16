@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 // File:	Structure.java
 // Description:	An abstract superclass for Adjacency lists and matrices
 // Author:	Ryan Gannon
@@ -24,6 +26,28 @@ public abstract class Structure {
 	
 	public int getNumNodes(){
 		return this.numNodes;
+	}
+	
+	// Compares two edges (arraylists of integers) to force quicksort to be stable
+	protected static boolean edgeLessThan(ArrayList<Integer> edge1, ArrayList<Integer> edge2){
+		if(edge1.get(2) < edge2.get(2)){
+			return true;
+		} else if (edge1.get(2) > edge2.get(2)){
+			return false;
+		} else {
+			if(edge1.get(0) < edge2.get(0)){
+				return true;
+			} else if(edge1.get(0) > edge2.get(0)){
+				return false;
+			} else {
+				if(edge1.get(1) < edge2.get(1)){
+					return true;
+				} else if(edge1.get(1) > edge2.get(1)){
+					return false;
+				}
+			}
+		}
+		return true;
 	}
 	
 	public abstract boolean isConnected();

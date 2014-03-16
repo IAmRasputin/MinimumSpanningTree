@@ -43,6 +43,8 @@ public class AdjacencyMatrix extends Structure {
 		System.out.println("===================================");
 		System.out.println("SORTED EDGES WITH MATRIX USING INSERTION SORT");
 
+		long startTime = -System.currentTimeMillis();
+		
 		// Populate the edges of the structure into an arraylist
 		ArrayList<ArrayList<Integer>> edges =
 				new ArrayList<ArrayList<Integer>>();
@@ -59,7 +61,7 @@ public class AdjacencyMatrix extends Structure {
 		}
 		
 		// Begin insertion sort implementation
-		long startTime = -System.currentTimeMillis();
+		
 		int len = edges.size();
 		ArrayList<Integer> temp = new ArrayList<Integer>();
 		
@@ -97,6 +99,8 @@ public class AdjacencyMatrix extends Structure {
 		System.out.println("===================================");
 		System.out.println("SORTED EDGES WITH MATRIX USING COUNT SORT");
 
+		long startTime = -System.currentTimeMillis();
+		
 		// Populate the edges of the structure into an arraylist
 		ArrayList<ArrayList<Integer>> edges =
 				new ArrayList<ArrayList<Integer>>();
@@ -118,7 +122,7 @@ public class AdjacencyMatrix extends Structure {
 		
 		radix++;
 		
-		long startTime = -System.currentTimeMillis();
+
 		int len = edges.size();
 		
 		// Begin count sort implementation
@@ -172,6 +176,8 @@ public class AdjacencyMatrix extends Structure {
 		System.out.println("===================================");
 		System.out.println("SORTED EDGES WITH MATRIX USING QUICKSORT");
 
+		long startTime = -System.currentTimeMillis();
+		
 		// Populate the edges of the structure into an arraylist
 		ArrayList<ArrayList<Integer>> edges =
 				new ArrayList<ArrayList<Integer>>();
@@ -187,11 +193,11 @@ public class AdjacencyMatrix extends Structure {
 			}
 		}
 		
-		long startTime = -System.currentTimeMillis();
+		
 		int len = edges.size();
 		
 		// Begin quicksort implementation
-		
+		QS_sort(edges, 0, len-1);
 		
 		long totalTime = startTime + System.currentTimeMillis();
 		int totWeight = 0;
@@ -209,6 +215,42 @@ public class AdjacencyMatrix extends Structure {
 		System.out.println("Runtime: " + totalTime + " milliseconds");
 		System.out.println();
 	}
+	
+	private static int QS_partition(ArrayList<ArrayList<Integer>> edges, int lo, int hi){
+		int i = lo, j = hi+1;
+		ArrayList<Integer> temp = new ArrayList<Integer>();
+		
+		while(true){
+			while(edgeLessThan(edges.get(++i), edges.get(lo))){
+				if(i == hi) break;
+			}
+			while(edgeLessThan(edges.get(lo), edges.get(--j))){
+				if(j == lo) break;
+			}
+			
+			if(i >= j) break;
+			temp = edges.get(i);
+			edges.set(i, edges.get(j));
+			edges.set(j, temp);	
+		}
+		
+		temp = edges.get(lo);
+		edges.set(lo, edges.get(j));
+		edges.set(j, temp);
+		
+		return j;
+	}
+	
+	private static void QS_sort(ArrayList<ArrayList<Integer>> edges, int lo, int hi){
+		if(hi <= lo){
+			return;
+		} 
+		int j = QS_partition(edges, lo, hi);
+		QS_sort(edges, lo, j-1);
+		QS_sort(edges, j+1, hi);
+	}
+	
+	
 
 	
 
