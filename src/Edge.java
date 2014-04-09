@@ -4,4 +4,67 @@
 
 public class Edge
 {
+	private int weight;
+	private int lNode;
+	private int rNode;
+
+	// Public constructor
+	public Edge(int w, int l, int r)
+	{
+		weight = w;
+		lNode = l;
+		rNode = r;
+	}
+
+	// Returns the weight of the edge
+	public int getWeight()
+	{
+		return weight;
+	}
+
+	// Returns the left node of the edge
+	public int getLeftNode()
+	{
+		return lNode;
+	}
+
+	// Returns the right node of the edge
+	public int getRightNode()
+	{
+		return rNode;
+	}
+
+	// Performs an equality check on this edge and another
+	public boolean equals(Edge e)
+	{
+		return  ((this.lNode == e.lNode && this.rNode == e.rNode) ||
+			(this.lNode == e.rNode && this.rNode == e.lNode)) &&
+			(this.weight == e.weight);
+	}
+
+	// Determines ordering for two edges, based on weight and nodes
+	public boolean lessThan(Edge e)
+	{
+		if(this.getWeight() < e.getWeight()){
+			return true;
+		} else if (this.getWeight() > e.getWeight()){
+			return false;
+		} else {
+			if(this.getLeftNode() < e.getLeftNode()){
+				return true;
+			} else if(this.getLeftNode() > e.getLeftNode()){
+				return false;
+			} else {
+				if(this.getRightNode() < e.getRightNode()){
+					return true;
+				} else if(this.getRightNode() > e.getRightNode()){
+					return false;
+				}
+			}
+		}
+		return true;
+	}
+{
+		
+
 }
