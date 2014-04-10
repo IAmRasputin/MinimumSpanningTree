@@ -42,15 +42,20 @@ public class AdjacencyList extends Structure {
 		for(int i = 0; i < adjList.size(); i++){
 			for(int j = 0; j < adjList.get(i).size(); j++){
 				Edge edge = new Edge(adjList.get(i).get(j).getWeight(), 
-						     i, 
-						     adjList.get(i).get(j).getRightNode());
-				Edge duplicate = new Edge(adjList.get(i).get(j).getWeight(), 
-							  adjList.get(i).get(j).getRightNode(), 
-							  i);
-				
-				if(!edges.contains(edge)){
-					edges.add(duplicate);
+						     adjList.get(i).get(j).getRightNode(), 
+						     i);
+
+				boolean add = true;
+				for(Edge e : edges){
+					if (e.equals(edge)){
+						add = false;
+						break;
+					}
 				}
+
+				if(add)
+					edges.add(edge);
+					
 			}
 		}
 		
@@ -104,18 +109,24 @@ public class AdjacencyList extends Structure {
 		for(int i = 0; i < adjList.size(); i++){
 			for(int j = 0; j < adjList.get(i).size(); j++){
 				Edge edge = new Edge(adjList.get(i).get(j).getWeight(), 
-						     i, 
-						     adjList.get(i).get(j).getRightNode());
-				Edge duplicate = new Edge(adjList.get(i).get(j).getWeight(), 
-							  adjList.get(i).get(j).getRightNode(), 
-							  i);
-				
-				if(!edges.contains(edge)){
-					edges.add(duplicate);
+						     adjList.get(i).get(j).getRightNode(), 
+						     i);
+
+				boolean add = true;
+				for(Edge e : edges){
+					if (e.equals(edge)){
+						add = false;
+						break;
+					}
 				}
+
+				if(add)
+					edges.add(edge);
+				
 				if(edge.getWeight() > radix){
 					radix = edge.getWeight();
 				}
+
 			}
 		}
 		
@@ -183,15 +194,20 @@ public class AdjacencyList extends Structure {
 		for(int i = 0; i < adjList.size(); i++){
 			for(int j = 0; j < adjList.get(i).size(); j++){
 				Edge edge = new Edge(adjList.get(i).get(j).getWeight(), 
-						     i, 
-						     adjList.get(i).get(j).getRightNode());
-				Edge duplicate = new Edge(adjList.get(i).get(j).getWeight(), 
-							  adjList.get(i).get(j).getRightNode(), 
-							  i);
-				
-				if(!edges.contains(edge)){
-					edges.add(duplicate);
+						     adjList.get(i).get(j).getRightNode(), 
+						     i); 
+
+				boolean add = true;
+				for(Edge e : edges){
+					if (e.equals(edge)){
+						add = false;
+						break;
+					}
 				}
+
+				if(add)
+					edges.add(edge);
+					
 			}
 		}
 		

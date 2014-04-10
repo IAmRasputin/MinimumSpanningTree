@@ -64,4 +64,12 @@ public class Edge
 		}
 		return true;
 	}
+
+	// Returns a string representation of the edge
+	public String toString()
+	{
+		return "Edge of weight " +this.getWeight()+ " with left node "+
+		       this.getLeftNode() + " and right node " +
+		       this.getRightNode();
+	}
 }
