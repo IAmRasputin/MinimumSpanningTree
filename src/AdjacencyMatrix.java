@@ -7,7 +7,7 @@ import java.util.Stack;
 public class AdjacencyMatrix extends Structure {
 	
 	private int numNodes;
-	private Integer[][] adjMatrix;
+	private Edge[][] adjMatrix;
 	private Integer[] preTrace; // For determining predecessors
 	
 	// Public constructor
@@ -19,8 +19,8 @@ public class AdjacencyMatrix extends Structure {
 	
 	// Connects two nodes with the given indices with the given weight
 	public void connect(int node1, int node2, int weight) {
-		this.adjMatrix[node1][node2] = weight;
-		this.adjMatrix[node2][node1] = weight;
+		this.adjMatrix[node1][node2] = new Edge(weight, node1, node2);
+		this.adjMatrix[node2][node1] = new Edge(weight, node2, node1);
 	}
 	
 	// Prints out a string representation of the matrix
@@ -29,8 +29,8 @@ public class AdjacencyMatrix extends Structure {
 		System.out.println();
 		for(int i = 0; i < this.numNodes; i++){
 			for(int j = 0; j < this.numNodes; j++){
-				System.out.print(this.adjMatrix[i][j]);
-				if(this.adjMatrix[i][i] >= 10){
+				System.out.print(this.adjMatrix[i][j].getWeight());
+				if(this.adjMatrix[i][i].getWeight() >= 10){
 					System.out.print("  ");
 				} else {
 					System.out.print("   ");
@@ -48,15 +48,11 @@ public class AdjacencyMatrix extends Structure {
 		System.out.println("SORTED EDGES WITH MATRIX USING INSERTION SORT");
 	
 		// Populate the edges of the structure into an arraylist
-		ArrayList<ArrayList<Integer>> edges =
-				new ArrayList<ArrayList<Integer>>();
+		ArrayList<Edge> edges = new ArrayList<Edge>();
 		for(int i = 0; i < numNodes; i++){
 			for(int j = 0; j < i; j++){
-				if( adjMatrix[i][j] != 0 ){
-					ArrayList<Integer> edge = new ArrayList<Integer>();
-					edge.add(i);
-					edge.add(j);
-					edge.add(adjMatrix[i][j]);
+				if( adjMatrix[i][j].getWeight() != 0 ){
+					Edge edge = new Edge(adjMatrix[i][j].getWeight(), i, j);
 					edges.add(edge);
 				}
 			}
@@ -65,11 +61,11 @@ public class AdjacencyMatrix extends Structure {
 		// Begin insertion sort implementation
 		long startTime = -System.currentTimeMillis();
 		int len = edges.size();
-		ArrayList<Integer> temp = new ArrayList<Integer>();
+		Edge temp;
 		
 		for(int i = 0; i < len; i++){
 			for(int j = i; j > 0; j--){
-				if(edges.get(j).get(2) < edges.get(j-1).get(2)){
+				if(edges.get(j).getWeight() < edges.get(j-1).getWeight()){
 					temp = edges.get(j-1);
 					edges.set(j-1, edges.get(j));
 					edges.set(j, temp);
@@ -83,11 +79,13 @@ public class AdjacencyMatrix extends Structure {
 		int totWeight = 0;
 		// Print out the result len <= 10
 		
-		for( ArrayList<Integer> e : edges){
+		for(Edge e : edges){
 			if(len <= 10){
-				System.out.println(e.get(0)+" "+e.get(1)+" weight = "+e.get(2));
+				System.out.println(e.getLeftNode()+" "+
+						   e.getRightNode()+" weight = "+
+						   e.getWeight());
 			}
-			totWeight += e.get(2);
+			totWeight += e.getWeight();
 		}
 		
 		System.out.println();
@@ -105,19 +103,15 @@ public class AdjacencyMatrix extends Structure {
 		
 		
 		// Populate the edges of the structure into an arraylist
-		ArrayList<ArrayList<Integer>> edges =
-				new ArrayList<ArrayList<Integer>>();
+		ArrayList<Edge> edges = new ArrayList<Edge>();
 		int radix = 0;
 		for(int i = 0; i < numNodes; i++){
 			for(int j = 0; j < i; j++){
-				if( adjMatrix[i][j] != 0 ){
-					ArrayList<Integer> edge = new ArrayList<Integer>();
-					edge.add(i);
-					edge.add(j);
-					edge.add(adjMatrix[i][j]);
+				if( adjMatrix[i][j].getWeight() != 0 ){
+					Edge edge = new Edge(adjMatrix[i][j].getWeight(), i, j);
 					edges.add(edge);
-					if(adjMatrix[i][j] > radix){
-						radix = adjMatrix[i][j];
+					if(adjMatrix[i][j].getWeight() > radix){
+						radix = adjMatrix[i][j].getWeight();
 					}
 				}
 			}
@@ -130,9 +124,8 @@ public class AdjacencyMatrix extends Structure {
 		
 		// Begin count sort implementation
 		long startTime = -System.currentTimeMillis();
-		ArrayList<ArrayList<Integer>> aux = new ArrayList<ArrayList<Integer>>();
-		ArrayList<Integer> blank = new ArrayList<Integer>();
-		for(int i = 0; i < 3; i++) blank.add(0);
+		ArrayList<Edge> aux = new ArrayList<Edge>();
+		Edge blank = new Edge(0, 0, 0);
 		for(int i = 0; i < len; i++) aux.add(blank);
 		
 		Integer[] count = new Integer[radix+1];
@@ -141,7 +134,7 @@ public class AdjacencyMatrix extends Structure {
 		}
 		int index;
 		for(int i = 0; i < len; i++){
-			index = edges.get(i).get(2) + 1;
+			index = edges.get(i).getWeight() + 1;
 			count[index]++;
 		}
 		
@@ -150,9 +143,9 @@ public class AdjacencyMatrix extends Structure {
 		}
 		
 		for(int i = 0; i < len; i++){
-			index = count[edges.get(i).get(2)];
+			index = count[edges.get(i).getWeight()];
 			aux.set(index, edges.get(i));
-			count[edges.get(i).get(2)]++;
+			count[edges.get(i).getWeight()]++;
 		}
 		
 		edges = aux;
@@ -161,11 +154,13 @@ public class AdjacencyMatrix extends Structure {
 		int totWeight = 0;
 		// Print out the result len <= 10
 		
-		for( ArrayList<Integer> e : edges){
+		for( Edge e : edges){
 			if(len <= 10){
-				System.out.println(e.get(0)+" "+e.get(1)+" weight = "+e.get(2));
+				System.out.println(e.getLeftNode()+" "+
+						   e.getRightNode()+" weight = "+
+						   e.getWeight());
 			}
-			totWeight += e.get(2);
+			totWeight += e.getWeight();
 		}
 		
 		System.out.println();
@@ -183,15 +178,11 @@ public class AdjacencyMatrix extends Structure {
 		
 		
 		// Populate the edges of the structure into an arraylist
-		ArrayList<ArrayList<Integer>> edges =
-				new ArrayList<ArrayList<Integer>>();
+		ArrayList<Edge> edges = new ArrayList<Edge>();
 		for(int i = 0; i < numNodes; i++){
 			for(int j = 0; j < i; j++){
-				if( adjMatrix[i][j] != 0 ){
-					ArrayList<Integer> edge = new ArrayList<Integer>();
-					edge.add(i);
-					edge.add(j);
-					edge.add(adjMatrix[i][j]);
+				if( adjMatrix[i][j].getWeight() != 0 ){
+					Edge edge = new Edge(adjMatrix[i][j].getWeight(), i, j);
 					edges.add(edge);
 				}
 			}
@@ -208,11 +199,13 @@ public class AdjacencyMatrix extends Structure {
 		int totWeight = 0;
 		// Print out the result len <= 10
 		
-		for( ArrayList<Integer> e : edges){
+		for( Edge e : edges){
 			if(len <= 10){
-				System.out.println(e.get(0)+" "+e.get(1)+" weight = "+e.get(2));
+				System.out.println(e.getLeftNode()+" "+
+				                   e.getRightNode()+" weight = "+
+						   e.getWeight());
 			}
-			totWeight += e.get(2);
+			totWeight += e.getWeight();
 		}
 		
 		System.out.println();
@@ -222,15 +215,15 @@ public class AdjacencyMatrix extends Structure {
 	}
 	
 	// Partitions the arrayList for the quicksort
-	private static int QS_partition(ArrayList<ArrayList<Integer>> edges, int lo, int hi){
+	private static int QS_partition(ArrayList<Edge> edges, int lo, int hi){
 		int i = lo, j = hi+1;
-		ArrayList<Integer> temp = new ArrayList<Integer>();
+		Edge temp = new Edge(0, 0, 0);
 		
 		while(true){
-			while(edgeLessThan(edges.get(++i), edges.get(lo))){
+			while(edges.get(++i).lessThan(edges.get(lo))){
 				if(i == hi) break;
 			}
-			while(edgeLessThan(edges.get(lo), edges.get(--j))){
+			while(edges.get(lo).lessThan(edges.get(--j))){
 				if(j == lo) break;
 			}
 			
@@ -248,7 +241,7 @@ public class AdjacencyMatrix extends Structure {
 	}
 	
 	// Performs the actual work for the quicksort
-	private static void QS_sort(ArrayList<ArrayList<Integer>> edges, int lo, int hi){
+	private static void QS_sort(ArrayList<Edge> edges, int lo, int hi){
 		if(hi <= lo){
 			return;
 		} 
@@ -262,10 +255,10 @@ public class AdjacencyMatrix extends Structure {
 	
 	// Determines whether the graph is connected
 	public boolean isConnected() {
-		Stack<Integer[]> stack = new Stack<Integer[]>();
+		Stack<Edge[]> stack = new Stack<Edge[]>();
 		Stack<Integer> preStack = new Stack<Integer>();
-		ArrayList<Integer[]> visited = new ArrayList<Integer[]>();
-		Integer[] current;
+		ArrayList<Edge[]> visited = new ArrayList<Edge[]>();
+		Edge[] current;
 		Integer currentIndex;
 		// Start at node 0
 		stack.push(adjMatrix[0]);
@@ -277,7 +270,7 @@ public class AdjacencyMatrix extends Structure {
 			currentIndex = preStack.pop();
 			//visited.add(current);
 			for(int i = 0; i < this.numNodes; i++){
-				if(current[i] != 0){
+				if(current[i].getWeight() != 0){
 					if(!visited.contains(adjMatrix[i])){
 						stack.push(adjMatrix[i]);
 						preStack.push(i);
@@ -294,10 +287,10 @@ public class AdjacencyMatrix extends Structure {
 	
 	// Determines and prints out a trace of a depth-first search
 	public void DFSTrace(){
-		Stack<Integer[]> stack = new Stack<Integer[]>();
+		Stack<Edge[]> stack = new Stack<Edge[]>();
 		Stack<Integer> preStack = new Stack<Integer>();
-		ArrayList<Integer[]> visited = new ArrayList<Integer[]>();
-		Integer[] current;
+		ArrayList<Edge[]> visited = new ArrayList<Edge[]>();
+		Edge[] current;
 		Integer currentIndex;
 		// Start at node 0
 		stack.push(adjMatrix[0]);
@@ -309,7 +302,7 @@ public class AdjacencyMatrix extends Structure {
 			currentIndex = preStack.pop();
 			//visited.add(current);
 			for(int i = 0; i < this.numNodes; i++){
-				if(current[i] != 0){
+				if(current[i].getWeight() != 0){
 					if(!visited.contains(adjMatrix[i])){
 						stack.push(adjMatrix[i]);
 						preStack.push(i);
@@ -336,9 +329,9 @@ public class AdjacencyMatrix extends Structure {
 	
 	// Re-sets the matrix to only contain zeros
 	public void clear(){
-		this.adjMatrix = new Integer[numNodes][numNodes];
+		this.adjMatrix = new Edge[numNodes][numNodes];
 		for(int i = 0; i < numNodes; i++){
-			this.adjMatrix[i][i] = 0;
+			this.adjMatrix[i][i] = new Edge(0, 0, 0);
 		}
 	}
 

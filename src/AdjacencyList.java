@@ -3,12 +3,13 @@
 // Author:		Ryan Gannon
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 public class AdjacencyList extends Structure {
 
 	int numNodes;
-	ArrayList<ArrayList<ArrayList<Integer>>> adjList;	// Absolutely disgusting
-//	private Integer[] preTrace; 			// For determining predecessors
+	ArrayList<LinkedList<Edge>> adjList;
+//	private Integer[] preTrace; 	// For determining predecessors
 
 	// Public constructor
 	public AdjacencyList(int nodes) {
@@ -21,8 +22,8 @@ public class AdjacencyList extends Structure {
 		System.out.println("The graph as an adjacency list:");
 		for(int i = 0; i < this.numNodes; i++){
 			System.out.print(i+"-> ");
-			for(ArrayList<Integer> s : adjList.get(i)){				
-				System.out.print(s.get(0) + "(" + s.get(1) + ") ");				
+			for(Edge e : adjList.get(i)){				
+				System.out.print(e.getRightNode() + "(" + e.getWeight() + ") ");				
 			}
 			System.out.println();
 		}
@@ -37,18 +38,15 @@ public class AdjacencyList extends Structure {
 		
 		
 		// Populate the edges of the structure into an arraylist
-		ArrayList<ArrayList<Integer>> edges =
-				new ArrayList<ArrayList<Integer>>();
+		ArrayList<Edge> edges = new ArrayList<Edge>();
 		for(int i = 0; i < adjList.size(); i++){
 			for(int j = 0; j < adjList.get(i).size(); j++){
-				ArrayList<Integer> edge = new ArrayList<Integer>();
-				ArrayList<Integer> duplicate = new ArrayList<Integer>();
-				edge.add(i);
-				edge.add(adjList.get(i).get(j).get(0));
-				edge.add(adjList.get(i).get(j).get(1));
-				duplicate.add(adjList.get(i).get(j).get(0));
-				duplicate.add(i);
-				duplicate.add(adjList.get(i).get(j).get(1));
+				Edge edge = new Edge(adjList.get(i).get(j).getWeight(), 
+						     i, 
+						     adjList.get(i).get(j).getRightNode());
+				Edge duplicate = new Edge(adjList.get(i).get(j).getWeight(), 
+							  adjList.get(i).get(j).getRightNode(), 
+							  i);
 				
 				if(!edges.contains(edge)){
 					edges.add(duplicate);
@@ -60,11 +58,11 @@ public class AdjacencyList extends Structure {
 		
 		long startTime = -System.currentTimeMillis();
 		int len = edges.size();
-		ArrayList<Integer> temp = new ArrayList<Integer>();
+		Edge temp = new Edge(0, 0, 0);
 		
 		for(int i = 0; i < len; i++){
 			for(int j = i; j > 0; j--){
-				if(edges.get(j).get(2) < edges.get(j-1).get(2)){
+				if(edges.get(j).getWeight() < edges.get(j-1).getWeight()){
 					temp = edges.get(j-1);
 					edges.set(j-1, edges.get(j));
 					edges.set(j, temp);
@@ -78,11 +76,13 @@ public class AdjacencyList extends Structure {
 		int totWeight = 0;
 		// Print out the result len <= 10
 		
-		for( ArrayList<Integer> e : edges){
+		for( Edge e : edges){
 			if(len <= 10){
-				System.out.println(e.get(0)+" "+e.get(1)+" weight = "+e.get(2));
+				System.out.println(e.getLeftNode()+" "+
+						   e.getRightNode()+" weight = "+
+						   e.getWeight());
 			}
-			totWeight += e.get(2);
+			totWeight += e.getWeight();
 		}
 		
 		System.out.println();
@@ -98,27 +98,24 @@ public class AdjacencyList extends Structure {
 
 		
 		// Populate the edges of the structure into an arraylist
-		ArrayList<ArrayList<Integer>> edges =
-				new ArrayList<ArrayList<Integer>>();
 		int radix = 0;
+		
+		ArrayList<Edge> edges = new ArrayList<Edge>();
 		for(int i = 0; i < adjList.size(); i++){
 			for(int j = 0; j < adjList.get(i).size(); j++){
-				ArrayList<Integer> edge = new ArrayList<Integer>();
-				ArrayList<Integer> duplicate = new ArrayList<Integer>();
-				edge.add(i);
-				edge.add(adjList.get(i).get(j).get(0));
-				edge.add(adjList.get(i).get(j).get(1));
-				duplicate.add(adjList.get(i).get(j).get(0));
-				duplicate.add(i);
-				duplicate.add(adjList.get(i).get(j).get(1));
+				Edge edge = new Edge(adjList.get(i).get(j).getWeight(), 
+						     i, 
+						     adjList.get(i).get(j).getRightNode());
+				Edge duplicate = new Edge(adjList.get(i).get(j).getWeight(), 
+							  adjList.get(i).get(j).getRightNode(), 
+							  i);
 				
 				if(!edges.contains(edge)){
 					edges.add(duplicate);
 				}
-				if(edge.get(2) > radix){
-					radix = edge.get(2);
+				if(edge.getWeight() > radix){
+					radix = edge.getWeight();
 				}
-				
 			}
 		}
 		
@@ -129,9 +126,9 @@ public class AdjacencyList extends Structure {
 		
 		// Begin count sort implementation
 		long startTime = -System.currentTimeMillis();
-		ArrayList<ArrayList<Integer>> aux = new ArrayList<ArrayList<Integer>>();
-		ArrayList<Integer> blank = new ArrayList<Integer>();
-		for(int i = 0; i < 3; i++) blank.add(0);
+		ArrayList<Edge> aux = new ArrayList<Edge>();
+		Edge blank = new Edge(0, 0, 0);
+
 		for(int i = 0; i < len; i++) aux.add(blank);
 		
 		Integer[] count = new Integer[radix+1];
@@ -140,7 +137,7 @@ public class AdjacencyList extends Structure {
 		}
 		int index;
 		for(int i = 0; i < len; i++){
-			index = edges.get(i).get(2) + 1;
+			index = edges.get(i).getWeight() + 1;
 			count[index]++;
 		}
 		
@@ -149,9 +146,9 @@ public class AdjacencyList extends Structure {
 		}
 		
 		for(int i = 0; i < len; i++){
-			index = count[edges.get(i).get(2)];
+			index = count[edges.get(i).getWeight()];
 			aux.set(index, edges.get(i));
-			count[edges.get(i).get(2)]++;
+			count[edges.get(i).getWeight()]++;
 		}
 		
 		edges = aux;
@@ -160,11 +157,13 @@ public class AdjacencyList extends Structure {
 		int totWeight = 0;
 		// Print out the result len <= 10
 		
-		for( ArrayList<Integer> e : edges){
+		for( Edge e : edges){
 			if(len <= 10){
-				System.out.println(e.get(0)+" "+e.get(1)+" weight = "+e.get(2));
+				System.out.println(e.getLeftNode()+" "+
+						   e.getRightNode()+" weight = "+
+						   e.getWeight());
 			}
-			totWeight += e.get(2);
+			totWeight += e.getWeight();
 		}
 		
 		System.out.println();
@@ -180,18 +179,15 @@ public class AdjacencyList extends Structure {
 
 		
 		// Populate the edges of the structure into an arraylist
-		ArrayList<ArrayList<Integer>> edges =
-				new ArrayList<ArrayList<Integer>>();
+		ArrayList<Edge> edges = new ArrayList<Edge>();
 		for(int i = 0; i < adjList.size(); i++){
 			for(int j = 0; j < adjList.get(i).size(); j++){
-				ArrayList<Integer> edge = new ArrayList<Integer>();
-				ArrayList<Integer> duplicate = new ArrayList<Integer>();
-				edge.add(i);
-				edge.add(adjList.get(i).get(j).get(0));
-				edge.add(adjList.get(i).get(j).get(1));
-				duplicate.add(adjList.get(i).get(j).get(0));
-				duplicate.add(i);
-				duplicate.add(adjList.get(i).get(j).get(1));
+				Edge edge = new Edge(adjList.get(i).get(j).getWeight(), 
+						     i, 
+						     adjList.get(i).get(j).getRightNode());
+				Edge duplicate = new Edge(adjList.get(i).get(j).getWeight(), 
+							  adjList.get(i).get(j).getRightNode(), 
+							  i);
 				
 				if(!edges.contains(edge)){
 					edges.add(duplicate);
@@ -209,11 +205,13 @@ public class AdjacencyList extends Structure {
 		int totWeight = 0;
 		// Print out the result len <= 10
 		
-		for( ArrayList<Integer> e : edges){
+		for( Edge e : edges){
 			if(len <= 10){
-				System.out.println(e.get(0)+" "+e.get(1)+" weight = "+e.get(2));
+				System.out.println(e.getLeftNode()+" "+
+						   e.getRightNode()+" weight = "+
+						   e.getWeight());
 			}
-			totWeight += e.get(2);
+			totWeight += e.getWeight();
 		}
 		
 		System.out.println();
@@ -224,15 +222,15 @@ public class AdjacencyList extends Structure {
 	}
 	
 	// Partitions the arraylist for the quicksort
-	private static int QS_partition(ArrayList<ArrayList<Integer>> edges, int lo, int hi){
+	private static int QS_partition(ArrayList<Edge> edges, int lo, int hi){
 		int i = lo, j = hi+1;
-		ArrayList<Integer> temp = new ArrayList<Integer>();
+		Edge temp = new Edge(0, 0, 0);
 		
 		while(true){
-			while(edgeLessThan(edges.get(++i), edges.get(lo))){
+			while(edges.get(++i).lessThan(edges.get(lo))){
 				if(i == hi) break;
 			}
-			while(edgeLessThan(edges.get(lo), edges.get(--j))){
+			while(edges.get(lo).lessThan(edges.get(--j))){
 				if(j == lo) break;
 			}
 			
@@ -250,7 +248,7 @@ public class AdjacencyList extends Structure {
 	}
 	
 	// performs the quicksort
-	private static void QS_sort(ArrayList<ArrayList<Integer>> edges, int lo, int hi){
+	private static void QS_sort(ArrayList<Edge> edges, int lo, int hi){
 		if(hi <= lo){
 			return;
 		} 
@@ -269,12 +267,8 @@ public class AdjacencyList extends Structure {
 	// Connects two nodes at the givern vertices with the given weight
 	public void connect(int node1, int node2, int weight) {
 		if(weight != 0){
-			ArrayList<Integer> toAddFirst = new ArrayList<Integer>();
-			toAddFirst.add(node2);
-			toAddFirst.add(weight);
-			ArrayList<Integer> toAddSecond = new ArrayList<Integer>();
-			toAddSecond.add(node1);
-			toAddSecond.add(weight);
+			Edge toAddFirst = new Edge(weight, node1, node2);
+			Edge toAddSecond = new Edge(weight, node2, node1);
 			adjList.get(node1).add(toAddFirst);
 			adjList.get(node2).add(toAddSecond);
 			
@@ -283,10 +277,9 @@ public class AdjacencyList extends Structure {
 	
 	// Clears the list to all 0s
 	public void clear(){
-		adjList = new ArrayList<ArrayList<ArrayList<Integer>>>();
-		
+		adjList = new ArrayList<LinkedList<Edge>>();	
 		for(int i = 0; i < numNodes; i++)
-			adjList.add(new ArrayList<ArrayList<Integer>>());
+			adjList.add(new LinkedList<Edge>());
 	}
 
 }
