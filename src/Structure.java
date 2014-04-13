@@ -29,9 +29,10 @@ public abstract class Structure {
 	}
 	
 	// Finds the MST with kruskal's algorithm and prints the results
-	public void kruskalMST(ArrayList<Edge> edges, int size){
+	public static void kruskalMST(ArrayList<Edge> edges, int size){
 		Partition part = new Partition(size);
 		int root1, root2 = 0;
+		int w = 0; // Weight
 		Partition copy = part;
 		ArrayList<Edge> MST = new ArrayList<Edge>();
 		
@@ -45,6 +46,20 @@ public abstract class Structure {
 				part.union(root1, root2);
 			}
 		}
+
+		int len = MST.size();
+
+		for(Edge e : MST){
+			if(len <= 10){
+				System.out.println(e.getLeftNode() + " " +
+					e.getRightNode() + " weight = " +
+					e.getWeight());
+			}
+			w += e.getWeight();
+		}
+
+		System.out.println();
+		System.out.println("Total weight of MST using Kruskal: "+ w);
 		
 	}
 	

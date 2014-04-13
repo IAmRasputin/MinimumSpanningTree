@@ -34,7 +34,7 @@ public class AdjacencyList extends Structure {
 	// Performs an insertion sort on the list and prints the results
 	public void insertionSort() {
 		System.out.println("===================================");
-		System.out.println("SORTED EDGES WITH LIST USING INSERTION SORT");
+		System.out.println("KRUSKAL WITH LIST USING INSERTION SORT");
 		
 		
 		// Populate the edges of the structure into an arraylist
@@ -77,21 +77,11 @@ public class AdjacencyList extends Structure {
 			}
 		}
 
+		
+		// Print out the MST	
+		kruskalMST(edges, len);
+
 		long totalTime = startTime + System.currentTimeMillis();
-		int totWeight = 0;
-		// Print out the result len <= 10
-		
-		for( Edge e : edges){
-			if(len <= 10){
-				System.out.println(e.getLeftNode()+" "+
-						   e.getRightNode()+" weight = "+
-						   e.getWeight());
-			}
-			totWeight += e.getWeight();
-		}
-		
-		System.out.println();
-		System.out.println("Total weight: " + totWeight);
 		System.out.println("Runtime: " + totalTime + " milliseconds");
 		System.out.println();
 	}
@@ -99,7 +89,7 @@ public class AdjacencyList extends Structure {
 	// Performs a count sort on the list and prints the results
 	public void countSort() {
 		System.out.println("===================================");
-		System.out.println("SORTED EDGES WITH LIST USING COUNT SORT");
+		System.out.println("KRUSKAL WITH LIST USING COUNT SORT");
 
 		
 		// Populate the edges of the structure into an arraylist
@@ -164,21 +154,11 @@ public class AdjacencyList extends Structure {
 		
 		edges = aux;
 		
-		long totalTime = startTime + System.currentTimeMillis();
-		int totWeight = 0;
 		// Print out the result len <= 10
-		
-		for( Edge e : edges){
-			if(len <= 10){
-				System.out.println(e.getLeftNode()+" "+
-						   e.getRightNode()+" weight = "+
-						   e.getWeight());
-			}
-			totWeight += e.getWeight();
-		}
-		
-		System.out.println();
-		System.out.println("Total weight: " + totWeight);
+		kruskalMST(edges, len);	
+
+
+		long totalTime = startTime + System.currentTimeMillis();
 		System.out.println("Runtime: " + totalTime + " milliseconds");
 		System.out.println();
 	}
@@ -186,7 +166,7 @@ public class AdjacencyList extends Structure {
 	// Performs a (stable) quicksort on the list and prints the results
 	public void quickSort() {
 		System.out.println("===================================");
-		System.out.println("SORTED EDGES WITH LIST USING QUICKSORT");
+		System.out.println("KRUSKAL WITH LIST USING QUICKSORT");
 
 		
 		// Populate the edges of the structure into an arraylist
@@ -217,21 +197,10 @@ public class AdjacencyList extends Structure {
 		long startTime = -System.currentTimeMillis();
 		QS_sort(edges, 0, len-1);
 		
-		long totalTime = startTime + System.currentTimeMillis();
-		int totWeight = 0;
 		// Print out the result len <= 10
-		
-		for( Edge e : edges){
-			if(len <= 10){
-				System.out.println(e.getLeftNode()+" "+
-						   e.getRightNode()+" weight = "+
-						   e.getWeight());
-			}
-			totWeight += e.getWeight();
-		}
-		
-		System.out.println();
-		System.out.println("Total weight: " + totWeight);
+		kruskalMST(edges, len);
+
+		long totalTime = startTime + System.currentTimeMillis();
 		System.out.println("Runtime: " + totalTime + " milliseconds");
 		System.out.println();
 		
