@@ -327,6 +327,8 @@ public class AdjacencyMatrix extends Structure {
 		System.out.println();
 	}
 	
+	
+	
 	// Re-sets the matrix to only contain zeros
 	public void clear(){
 		this.adjMatrix = new Edge[numNodes][numNodes];

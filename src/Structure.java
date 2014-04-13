@@ -28,26 +28,24 @@ public abstract class Structure {
 		return this.numNodes;
 	}
 	
-	// Compares two edges (arraylists of integers) to force quicksort to be stable
-	protected static boolean edgeLessThan(ArrayList<Integer> edge1, ArrayList<Integer> edge2){
-		if(edge1.get(2) < edge2.get(2)){
-			return true;
-		} else if (edge1.get(2) > edge2.get(2)){
-			return false;
-		} else {
-			if(edge1.get(0) < edge2.get(0)){
-				return true;
-			} else if(edge1.get(0) > edge2.get(0)){
-				return false;
-			} else {
-				if(edge1.get(1) < edge2.get(1)){
-					return true;
-				} else if(edge1.get(1) > edge2.get(1)){
-					return false;
-				}
+	// Finds the MST with kruskal's algorithm and prints the results
+	public void kruskalMST(ArrayList<Edge> edges, int size){
+		Partition part = new Partition(size);
+		int root1, root2 = 0;
+		Partition copy = part;
+		ArrayList<Edge> MST = new ArrayList<Edge>();
+		
+		
+		for(Edge e : edges){
+			root1 = part.find(e.getLeftNode());
+			root2 = part.find(e.getRightNode());
+			
+			if(root1 != root2){
+				MST.add(e);
+				part.union(root1, root2);
 			}
 		}
-		return true;
+		
 	}
 	
 	// Is the structure representing a connected graph?
