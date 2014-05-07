@@ -93,7 +93,7 @@ public class MST{
 		// Generate the graph
 		Graph graph = new Graph(
 				Integer.parseInt(fileIn.get(0)), 
-				Long.parseLong(fileIn.get(1)), 
+				Integer.parseInt(fileIn.get(1)), 
 				Double.parseDouble(fileIn.get(2)));
 
 		// Display the output
