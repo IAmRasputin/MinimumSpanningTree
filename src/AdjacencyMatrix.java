@@ -19,10 +19,8 @@ public class AdjacencyMatrix extends Structure {
 	
 	// Connects two nodes with the given indices with the given weight
 	public void connect(int node1, int node2, int weight) {
-		System.out.println("Connecting: (" + node1 + ", " + node2 + ") = " + weight);
 		this.adjMatrix[node1][node2] = new Edge(weight, node1, node2);
 		this.adjMatrix[node2][node1] = new Edge(weight, node2, node1);
-		this.print();
 	}
 	
 	// Prints out a string representation of the matrix
