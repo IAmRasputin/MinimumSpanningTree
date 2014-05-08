@@ -110,6 +110,8 @@ public class MST{
 		graph.adjList.insertionSort();
 		graph.adjList.countSort();
 		graph.adjList.quickSort();
+		graph.adjMatrix.prim();
+		graph.adjList.prim();
 		
 	}
 }
