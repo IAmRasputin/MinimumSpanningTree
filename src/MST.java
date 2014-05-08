@@ -101,7 +101,7 @@ public class MST{
 		if(Integer.parseInt(fileIn.get(0)) <= 10){
 			graph.adjMatrix.print();
 			graph.adjList.print();
-			graph.adjMatrix.DFSTrace();
+			graph.adjMatrix.depthFirstSearch();
 			
 		}
 		graph.adjMatrix.insertionSort();

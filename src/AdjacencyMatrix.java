@@ -9,11 +9,13 @@ public class AdjacencyMatrix extends Structure {
 	private int numNodes;
 	private Edge[][] adjMatrix;
 	private Integer[] preTrace; // For determining predecessors
-	
+	private ArrayList<Integer> visited;
+
 	// Public constructor
 	public AdjacencyMatrix(int nodes){
 		this.numNodes = nodes;
 		this.preTrace = new Integer[numNodes];
+		this.visited = new ArrayList<Integer>();
 		this.clear();
 	}
 	
@@ -251,36 +253,12 @@ public class AdjacencyMatrix extends Structure {
 		}
 		return (visited.size() == this.numNodes);
 	}
-	
+
 	// Determines and prints out a trace of a depth-first search
-	public void DFSTrace(){
-		Stack<Edge[]> stack = new Stack<Edge[]>();
-		Stack<Integer> preStack = new Stack<Integer>();
-		ArrayList<Edge[]> visited = new ArrayList<Edge[]>();
-		Edge[] current;
-		Integer currentIndex;
-		// Start at node 0
-		stack.push(adjMatrix[0]);
-		preStack.push(0);
-		this.preTrace[0] = -1;
-		
-		while(!stack.empty()){
-			current = stack.pop();
-			currentIndex = preStack.pop();
-			//visited.add(current);
-			for(int i = 0; i < this.numNodes; i++){
-				if(current[i].getWeight() != 0){
-					if(!visited.contains(adjMatrix[i])){
-						stack.push(adjMatrix[i]);
-						preStack.push(i);
-						visited.add(adjMatrix[i]);
-						if(i != 0){
-							this.preTrace[i] = currentIndex;
-						}
-					}
-				}
-			}
-		}
+	
+	
+	public void depthFirstSearch(){
+		this.depthFirstSearch(0);
 		
 		System.out.println("Depth-First Search:\nVertices:");
 		System.out.print(" ");
@@ -292,9 +270,25 @@ public class AdjacencyMatrix extends Structure {
 			System.out.print(preTrace[i]+" ");
 		}
 		System.out.println();
+
 	}
-	
-	
+
+	public void depthFirstSearch(int index){
+		boolean children = false;
+		this.visited.add(index);
+
+		for(int i = 0; i < this.numNodes; i++){
+			if(this.adjMatrix[index][i].getWeight() != 0 
+			&& !this.visited.contains(i)){
+				children = true;
+				this.preTrace[i] = index;
+				this.depthFirstSearch(i);
+			}
+		}
+
+		if(!children) return;
+	}
+			
 	
 	// Re-sets the matrix to only contain zeros
 	public void clear(){
