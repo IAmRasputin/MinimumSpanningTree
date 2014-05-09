@@ -7,43 +7,49 @@ public class HeapPQ
 	private static class Vertex{
 		public int index;
 		public int priority;
-		LinkedList<Edge> edges;
-		LinkedList<Edge> solution;
 
-		public Vertex(int i, int p, LinkedList<Edge> edges)
+		public Vertex(int i, int p)
 		{
 			this.index = i;
 			this.priority = p;
-			this.edges = edges;
-			this.solution = new LinkedList<Edge>();
+		}
+
+		public Vertex()
+		{
+			this.index = null;
+			this.priority = null;
 		}
 	}
 	
 	int size;
-	Vertex[] heap;
+	LinkedList<Vertex> heap;
+	LinkedList<Edge> edges;
+	LinkedList<Edge> solution;
 
-	public HeapPQ(int n, LinkedList<Vertex> v)
+	public HeapPQ(int n, LinkedList<Edge> edges)
 	{
-		this.size = n;
-		this.heap = new Vertex[size + 1];
+		this.size = n + 1;
+		this.heap = new LinkedList<Vertex>();
+		this.heap.add(new Vertex());
+		for(int i = 1; i <= n; i++){
+			this.heap.add(new Vertex(i, -1));
+		}
 	}
 
 	private static void insert(Vertex v)
 	{
 		size++;
-		Vertex[] newHeap = new Vertex[size + 1];
-		System.arraycopy(heap, 0, newHeap, 0, heap.length);
-		newHeap[size] = v;
-		heap = newHeap;
+		this.heap.add(v);
 		swim(size);
 	}
 
-	private static Vertex deleteMax()
+	private static Vertex deleteMin()
 	{
-		Vertex max = heap[1];
-		exch(1, size--);
+		Vertex max = heap.get(1);
+		exch(1, size);
 		sink(1);
-		heap[size + 1] = null;
+		heap.removeLast();
+		size--;
 		return max;
 	}
 
@@ -71,20 +77,25 @@ public class HeapPQ
 
 	private static boolean less(int i, int j)
 	{
-		if(j < 0) return true;
-		else if(i < 0) return false;
-		else if(i < j) return true;
-		else return false;
+		// The return statements here are reversed to create a min heap
+		if(heap.get(j).priority < 0) return false;
+		else if(heap.get(i).priority < 0) return true;
+		else if(heap.get(i).priority < heap.get(j).priority) return false;
+		else return true;
 	}
 
 	private static void exch(int i, int j)
 	{
-		Vertex temp = heap[i];
-		heap[i] = heap[j];
-		heap[j] = temp;
+		Vertex temp = heap.get(i);
+		heap.set(i, heap.get(j));
+		heap.set(j, temp);
 	}
 
 	public LinkedList<Edge> prim()
 	{
+		Vertex u = deleteMin();
+		for(Edge e : edges){
+			if(e.getLeftNode() == u.index){
+				if(u.priority == -1)
 	}
 }
