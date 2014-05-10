@@ -2,86 +2,98 @@
 // Description:	A class representing a heap priority queue
 // Author:	Ryan Gannon
 
+import java.util.LinkedList;
+
 public class HeapPQ
 {
-	private static class Vertex{
+	private class Vertex{
 		public int index;
 		public int priority;
 
-		public Vertex(int i, int p)
-		{
-			this.index = i;
-			this.priority = p;
-		}
-
-		public Vertex()
-		{
-			this.index = null;
-			this.priority = null;
-		}
+		public Vertex(int index, int priority){
+			this.index = index;
+			this.priority = priority;}
 	}
-	
-	int size;
-	LinkedList<Vertex> heap;
-	LinkedList<Edge> edges;
-	LinkedList<Edge> solution;
 
-	public HeapPQ(int n, LinkedList<Edge> edges)
-	{
-		this.size = n + 1;
+	private LinkedList<Vertex> heap;
+	private LinkedList<Edge> edges;
+	private LinkedList<Edge> solution;
+
+	public HeapPQ(int n, LinkedList<Edges> e){
 		this.heap = new LinkedList<Vertex>();
-		this.heap.add(new Vertex());
-		for(int i = 1; i <= n; i++){
-			this.heap.add(new Vertex(i, -1));
+		this.edges = e;
+		this.size = n+1;
+
+		for(int i = 0; i < size; i++){
+			heap.add(new Vertex(i, -1));
 		}
 	}
 
-	private static void insert(Vertex v)
-	{
+	private static void heapify(){
+		for(int i = 1; i < size; i++){
+			if(size > 2 * i + 1){
+				if(less(i, 2 * i) || less(i, 2 * i + 1)){
+					if(less(2 * i, 2 * i + 1)){
+						exch(i, 2 * i + 1);
+					} else {
+						exch(i, 2 * i);
+					}
+				}
+			} else if (size > 2 * i) {
+				if(less(i, 2 * i)){
+					exch(i, 2 * i);
+				}
+			} else {
+				break;
+			}
+		}
+
+	}
+
+	private static void insert(Vertex v){
+		heap.add(v);
 		size++;
-		this.heap.add(v);
 		swim(size);
 	}
 
-	private static Vertex deleteMin()
-	{
-		Vertex max = heap.get(1);
+	private static Vertex deleteMin(){
+		Vertex min = heap.get(1);
 		exch(1, size);
-		sink(1);
 		heap.removeLast();
 		size--;
-		return max;
+		return min;
 	}
 
-		
-
-	private static void swim(int k)
+	private static void swim(int i)
 	{
-		while(k > 1 && less(Math.floor(k/2), k)){
-			exch(k, Math.floor(k/2));
-			k = Math.floor(k/2);
+		while(i > 1 && less(i/2, i)){
+			exch(k, k/2);
+			k = k/2;
 		}
 	}
 
-	private static void sink(int k)
+	private static void sink(int i)
 	{
 		int j;
-		while(2 * k <= this.size){
-			j = 2*k;
-			if(j < this.size && less(j, j+1)) j++;
-			if(!less(k, j)) break;
-			exch(k, j);
-			k = j;
+		while(2 * i <= size){
+			j = 2*i;
+			if(j < size && less(j, j+1)) j++;
+			if(!less(i, j)) break;
+			exch(i, j);
+			i = j;
 		}
 	}
 
-	private static boolean less(int i, int j)
+	private static boolean less(int u, int v)
 	{
-		// The return statements here are reversed to create a min heap
-		if(heap.get(j).priority < 0) return false;
-		else if(heap.get(i).priority < 0) return true;
-		else if(heap.get(i).priority < heap.get(j).priority) return false;
-		else return true;
+		int up = heap.get(u).priority;
+		int vp = heap.get(v).priority;
+
+		if(up == vp) return false;
+		else if(up == -1) return true;
+		else if(vp == -1) return false;
+		else if(up < vp) return true;
+		else return false;
 	}
 
 	private static void exch(int i, int j)
@@ -91,11 +103,18 @@ public class HeapPQ
 		heap.set(j, temp);
 	}
 
-	public LinkedList<Edge> prim()
-	{
-		Vertex u = deleteMin();
-		for(Edge e : edges){
-			if(e.getLeftNode() == u.index){
-				if(u.priority == -1)
+	public void prim(){
+		Vertex u;
+		while(size != 1){
+			u = deleteMin();
+			for(Edge e : edges){
+				// Found a match!
+				if(u.index == e.getLeftNode()){
+					heap.get(e.getRightNode()).priority = e.getWeight();
+
+
+				}
+			heapify();
+		}
 	}
 }
