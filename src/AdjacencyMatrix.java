@@ -304,16 +304,25 @@ public class AdjacencyMatrix extends Structure {
 		HeapPQ heap = new HeapPQ(numNodes, edges);
 		LinkedList<Edge> solution = heap.prim();
 
+		long startTime = -System.currentTimeMillis();
 
 		System.out.println("===================================");
 		System.out.println("PRIM WITH ADJACENCY MATRIX");
-		
+
+		int totalWeight = 0;
 
 		for(Edge e : solution){
 			System.out.println(e.getLeftNode() + " " + 
 					   e.getRightNode() + " weight = " +
 					   e.getWeight());
+			totalWeight += e.getWeight();
 		}
+
+		System.out.println();
+
+		System.out.println("Total weight of MST using Prim: " + totalWeight);
+		long totalTime = startTime + System.currentTimeMillis();
+		System.out.println("Runtime: " + totalTime + " milliseconds");
 		
 		System.out.println();
 	}

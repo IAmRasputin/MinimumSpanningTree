@@ -4,8 +4,10 @@
 
 import java.util.LinkedList;
 
+// A priority queue, represented by a heap
 public class HeapPQ
 {
+	// A vertex in the graph
 	private class Vertex{
 		public int index;
 		public int priority;
@@ -20,6 +22,7 @@ public class HeapPQ
 	private LinkedList<Edge> edges;
 	private int size;
 
+	// public constructor
 	public HeapPQ(int n, LinkedList<Edge> e){
 		this.heap = new LinkedList<Vertex>();
 		this.edges = new LinkedList<Edge>();
@@ -34,25 +37,29 @@ public class HeapPQ
 		}
 	}
 
+
+	// Makes sure the highest priority vertex is on top
 	private void heapify(){
 		Vertex parent;
 		int parentInd;
 		
 		for(int i = this.size; i > 1; i--){
-			parentInd = (int)Math.floor(((double)i)/2);
+			parentInd = i/2;
 			parent = heap.get(parentInd);
 			if(heap.get(i).priority < parent.priority){
-				exch(i, parentInd);
+				exch(i, i/2);
 			}
 		}
 	}
 
+	// Inserts a vertex onto the heap
 	private void insert(Vertex v){
 		this.heap.add(v);
 		this.size++;
 		swim(this.size);
 	}
 
+	// Deletes and returns the top element on the heap
 	private Vertex deleteMin(){
 		Vertex min = this.heap.get(1);
 		exch(1, this.size);
@@ -61,6 +68,7 @@ public class HeapPQ
 		return min;
 	}
 
+	// Swims a vertex up the heap
 	private void swim(int i)
 	{
 		while(i > 1 && less(i/2, i)){
@@ -69,6 +77,7 @@ public class HeapPQ
 		}
 	}
 
+	// Sinks a vertex down the heap
 	private void sink(int i)
 	{
 		int j;
@@ -81,6 +90,7 @@ public class HeapPQ
 		}
 	}
 
+	// Returns true iff the priority of u is greater than v
 	private boolean less(int u, int v)
 	{
 		int up = heap.get(u).priority;
@@ -90,6 +100,7 @@ public class HeapPQ
 		else return false;
 	}
 
+	// Exchanges two vertices in the heap
 	private void exch(int i, int j)
 	{
 		Vertex temp = this.heap.get(i);
@@ -97,6 +108,7 @@ public class HeapPQ
 		this.heap.set(j, temp);
 	}
 
+	// Returns the index in the heap of the vertex with the given index
 	private int indexOf(int index)
 	{
 		Vertex v;
@@ -109,6 +121,7 @@ public class HeapPQ
 		return 0;
 	}
 
+	// Computes the MST
 	public LinkedList<Edge> prim(){
 		Vertex u;
 		Vertex v;
@@ -139,6 +152,22 @@ public class HeapPQ
 				
 			}
 			heapify();
+		}
+		int len = solution.size();
+		if(size <= 10){
+			Edge temp;
+				
+				for(int i = 0; i < len; i++){
+				for(int j = i; j > 0; j--){
+					if(solution.get(j).getWeight() < solution.get(j-1).getWeight()){
+						temp = solution.get(j-1);
+						solution.set(j-1, solution.get(j));
+						solution.set(j, temp);
+					} else {
+						break;
+					}
+				}
+			}
 		}
 		return solution;
 	}

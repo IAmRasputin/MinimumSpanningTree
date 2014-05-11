@@ -286,6 +286,9 @@ public class AdjacencyList extends Structure {
 		System.out.println("===================================");
 		System.out.println("PRIM WITH ADJACENCY LIST");
 
+		int totalWeight = 0;
+		long startTime = -System.currentTimeMillis();
+
 		HeapPQ heap = new HeapPQ(numNodes, edges);
 		LinkedList<Edge> solution = heap.prim();
 
@@ -293,8 +296,15 @@ public class AdjacencyList extends Structure {
 			System.out.println(e.getLeftNode() + " " + 
 					   e.getRightNode() + " weight = " +
 					   e.getWeight());
+			totalWeight += e.getWeight();
 		}
 		
+		System.out.println();
+		System.out.println("Total weight of MST using Prim: " + totalWeight);
+		long totalTime = startTime + System.currentTimeMillis();
+		System.out.println("Runtime: " + totalTime + " milliseconds");
+		
+		System.out.println();
 		System.out.println();
 	}
 	
