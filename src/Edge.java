@@ -15,6 +15,13 @@ public class Edge
 		lNode = l;
 		rNode = r;
 	}
+	
+	// Copy Constructor
+	public Edge(Edge other){
+		this.weight = other.getWeight();
+		this.lNode = other.getLeftNode();
+		this.rNode = other.getRightNode();
+	}
 
 	// Returns the weight of the edge
 	public int getWeight()

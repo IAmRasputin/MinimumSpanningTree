@@ -21,7 +21,11 @@ public class HeapPQ
 
 	public HeapPQ(int n, LinkedList<Edges> e){
 		this.heap = new LinkedList<Vertex>();
-		this.edges = e;
+		this.edges = new LinkedList<Edges>();
+		for(Edge edge : e){
+			edges.add(new Edge(edge));
+		}
+
 		this.size = n+1;
 
 		for(int i = 0; i < size; i++){
@@ -105,15 +109,12 @@ public class HeapPQ
 
 	public void prim(){
 		Vertex u;
+		Vertex match;
 		while(size != 1){
 			u = deleteMin();
 			for(Edge e : edges){
-				// Found a match!
-				if(u.index == e.getLeftNode()){
-					heap.get(e.getRightNode()).priority = e.getWeight();
-
-
-				}
+				// TODO
+			}
 			heapify();
 		}
 	}
