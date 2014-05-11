@@ -9,74 +9,67 @@ public class HeapPQ
 	private class Vertex{
 		public int index;
 		public int priority;
+		public int parent;
 
-		public Vertex(int index, int priority){
+		public Vertex(int index, int priority, int parent){
 			this.index = index;
 			this.priority = priority;}
 	}
 
 	private LinkedList<Vertex> heap;
 	private LinkedList<Edge> edges;
-	private LinkedList<Edge> solution;
+	private int size;
 
-	public HeapPQ(int n, LinkedList<Edges> e){
+	public HeapPQ(int n, LinkedList<Edge> e){
 		this.heap = new LinkedList<Vertex>();
-		this.edges = new LinkedList<Edges>();
+		this.edges = new LinkedList<Edge>();
 		for(Edge edge : e){
 			edges.add(new Edge(edge));
 		}
 
-		this.size = n+1;
-
-		for(int i = 0; i < size; i++){
-			heap.add(new Vertex(i, -1));
+		this.size = n;
+		
+		for(int i = -1; i < size; i++){
+			heap.add(new Vertex(i, Integer.MAX_VALUE, -1));
 		}
 	}
 
-	private static void heapify(){
-		for(int i = 1; i < size; i++){
-			if(size > 2 * i + 1){
-				if(less(i, 2 * i) || less(i, 2 * i + 1)){
-					if(less(2 * i, 2 * i + 1)){
-						exch(i, 2 * i + 1);
-					} else {
-						exch(i, 2 * i);
-					}
-				}
-			} else if (size > 2 * i) {
-				if(less(i, 2 * i)){
-					exch(i, 2 * i);
-				}
-			} else {
-				break;
+	private void heapify(){
+		Vertex parent;
+		int parentInd;
+		
+		for(int i = this.size; i > 1; i--){
+			parentInd = (int)Math.floor(((double)i)/2);
+			parent = heap.get(parentInd);
+			if(heap.get(i).priority < parent.priority){
+				exch(i, parentInd);
 			}
 		}
-
 	}
 
-	private static void insert(Vertex v){
-		heap.add(v);
-		size++;
-		swim(size);
+	private void insert(Vertex v){
+		this.heap.add(v);
+		this.size++;
+		swim(this.size);
 	}
 
-	private static Vertex deleteMin(){
-		Vertex min = heap.get(1);
-		exch(1, size);
-		heap.removeLast();
-		size--;
+	private Vertex deleteMin(){
+		Vertex min = this.heap.get(1);
+		exch(1, this.size);
+		this.heap.removeLast();
+		this.size--;
 		return min;
 	}
 
-	private static void swim(int i)
+	private void swim(int i)
 	{
 		while(i > 1 && less(i/2, i)){
-			exch(k, k/2);
-			k = k/2;
+			exch(i, i/2);
+			i = i/2;
 		}
 	}
 
-	private static void sink(int i)
+	private void sink(int i)
 	{
 		int j;
 		while(2 * i <= size){
@@ -88,34 +81,65 @@ public class HeapPQ
 		}
 	}
 
-	private static boolean less(int u, int v)
+	private boolean less(int u, int v)
 	{
 		int up = heap.get(u).priority;
 		int vp = heap.get(v).priority;
 
-		if(up == vp) return false;
-		else if(up == -1) return true;
-		else if(vp == -1) return false;
-		else if(up < vp) return true;
+		if(up < vp) return true;
 		else return false;
 	}
 
-	private static void exch(int i, int j)
+	private void exch(int i, int j)
 	{
-		Vertex temp = heap.get(i);
-		heap.set(i, heap.get(j));
-		heap.set(j, temp);
+		Vertex temp = this.heap.get(i);
+		this.heap.set(i, this.heap.get(j));
+		this.heap.set(j, temp);
 	}
 
-	public void prim(){
+	private int indexOf(int index)
+	{
+		Vertex v;
+		for(int i = 1; i <= size; i++){
+			v = heap.get(i);
+			if(v.index == index){
+				return i;
+			}
+		}
+		return 0;
+	}
+
+	public LinkedList<Edge> prim(){
 		Vertex u;
-		Vertex match;
-		while(size != 1){
+		Vertex v;
+		LinkedList<Edge> solution = new LinkedList<Edge>();
+		
+		while(heap.size() != 1){
 			u = deleteMin();
+			if(u.index != u.parent){
+				solution.add(new Edge(u.priority, u.parent, u.index));
+			}
+
+			// find edges adjacent to it
 			for(Edge e : edges){
-				// TODO
+				if(e.getLeftNode() == u.index){
+					v = heap.get(indexOf(e.getRightNode()));
+					if(e.getWeight() < v.priority){
+						v.parent = u.index;
+						v.priority = e.getWeight();
+					}
+				}
+				else if(e.getRightNode() == u.index){
+					v = heap.get(indexOf(e.getLeftNode()));
+					if(e.getWeight() < v.priority){
+						v.parent = u.index;
+						v.priority = e.getWeight();
+					}
+				}
+				
 			}
 			heapify();
 		}
+		return solution;
 	}
 }

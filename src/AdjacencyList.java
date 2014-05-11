@@ -259,6 +259,44 @@ public class AdjacencyList extends Structure {
 			
 		}
 	}
+
+	// Performs and prints the output of Prim's algorithm
+	public void prim(){
+		LinkedList<Edge> edges = new LinkedList<Edge>();
+		for(int i = 0; i < adjList.size(); i++){
+			for(int j = 0; j < adjList.get(i).size(); j++){
+				Edge edge = new Edge(adjList.get(i).get(j).getWeight(), 
+						     adjList.get(i).get(j).getRightNode(), 
+						     i);
+
+				boolean add = true;
+				for(Edge e : edges){
+					if (e.equals(edge)){
+						add = false;
+						break;
+					}
+				}
+
+				if(add)
+					edges.add(edge);
+					
+			}
+		}
+
+		System.out.println("===================================");
+		System.out.println("PRIM WITH ADJACENCY LIST");
+
+		HeapPQ heap = new HeapPQ(numNodes, edges);
+		LinkedList<Edge> solution = heap.prim();
+
+		for(Edge e : solution){
+			System.out.println(e.getLeftNode() + " " + 
+					   e.getRightNode() + " weight = " +
+					   e.getWeight());
+		}
+		
+		System.out.println();
+	}
 	
 	// Clears the list to all 0s
 	public void clear(){

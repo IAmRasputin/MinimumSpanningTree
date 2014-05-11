@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.Stack;
 
 // File:		AdjacencyMatrix.java
@@ -289,6 +290,33 @@ public class AdjacencyMatrix extends Structure {
 		if(!children) return;
 	}
 			
+	// Performs and prints the output of Prim's algorithm
+	public void prim(){
+		// Populate the edges of the structure into an arraylist
+		LinkedList<Edge> edges = new LinkedList<Edge>();
+		for(int i = 0; i < numNodes; i++){
+			for(int j = 0; j < i; j++){
+				if( adjMatrix[i][j].getWeight() != 0 ){
+					edges.add(new Edge(adjMatrix[i][j].getWeight(), i, j));
+				}
+			}
+		}
+		HeapPQ heap = new HeapPQ(numNodes, edges);
+		LinkedList<Edge> solution = heap.prim();
+
+
+		System.out.println("===================================");
+		System.out.println("PRIM WITH ADJACENCY MATRIX");
+		
+
+		for(Edge e : solution){
+			System.out.println(e.getLeftNode() + " " + 
+					   e.getRightNode() + " weight = " +
+					   e.getWeight());
+		}
+		
+		System.out.println();
+	}
 	
 	// Re-sets the matrix to only contain zeros
 	public void clear(){
