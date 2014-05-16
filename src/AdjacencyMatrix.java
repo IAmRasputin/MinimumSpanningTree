@@ -302,9 +302,11 @@ public class AdjacencyMatrix extends Structure {
 			}
 		}
 		HeapPQ heap = new HeapPQ(numNodes, edges);
-		LinkedList<Edge> solution = heap.prim();
+
 
 		long startTime = -System.currentTimeMillis();
+		LinkedList<Edge> solution = heap.prim();
+
 
 		System.out.println("===================================");
 		System.out.println("PRIM WITH ADJACENCY MATRIX");
