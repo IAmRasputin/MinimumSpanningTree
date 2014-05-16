@@ -9,10 +9,10 @@ public class Partition
 	// public constructor
 	public Partition(int size)
 	{
-		parent = new int[size];
-		rank = new int[size];
+		parent = new int[size+1];
+		rank = new int[size+1];
 
-		for(int i = 0; i < size; i++){
+		for(int i = 0; i <= size; i++){
 			rank[i] = 0;
 			parent[i] = i;
 		}
