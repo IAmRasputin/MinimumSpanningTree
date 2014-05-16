@@ -312,9 +312,11 @@ public class AdjacencyMatrix extends Structure {
 		int totalWeight = 0;
 
 		for(Edge e : solution){
-			System.out.println(e.getLeftNode() + " " + 
-					   e.getRightNode() + " weight = " +
-					   e.getWeight());
+			if(solution.size() <= 10){
+				System.out.println(e.getLeftNode() + " " + 
+						   e.getRightNode() + " weight = " +
+					   	   e.getWeight());
+			}
 			totalWeight += e.getWeight();
 		}
 

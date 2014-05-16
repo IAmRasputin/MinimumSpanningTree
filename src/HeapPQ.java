@@ -154,10 +154,10 @@ public class HeapPQ
 			heapify();
 		}
 		int len = solution.size();
-		if(size <= 10){
+		if(len <= 10){
 			Edge temp;
 				
-				for(int i = 0; i < len; i++){
+			for(int i = 0; i < len; i++){
 				for(int j = i; j > 0; j--){
 					if(solution.get(j).getWeight() < solution.get(j-1).getWeight()){
 						temp = solution.get(j-1);
